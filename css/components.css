@@ -1,0 +1,134 @@
+/*Toggle styles*/
+.toggle {
+    width: 70px;
+    height: 35px;
+    position: relative;
+}
+
+.toggle__control {
+    position: absolute;
+    top: 3px;
+    left: 0%;
+    margin-left: 3px;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50%;
+    transition: left 0.5s ease-in-out;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.toggle__input {
+    display: none;
+}
+
+.toggle__input:checked + .toggle__control{
+    left: 50%;
+}
+
+.toggle__label {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #FF5151;
+    border-radius: 25px;
+    z-index: 1;
+    transition: background-color 0.5s ease-in-out;
+}
+.toggle__input:checked + .toggle__control + .toggle__label {
+    background: green;
+}
+
+/*Checkbox module*/
+
+.agreement-box{
+    margin-bottom: 10px;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.agreement-box__chk{
+    display: none;
+}
+.agreement-box__checker{
+    padding: 4px;
+    box-sizing: border-box;
+    width: 35px;
+    height: 35px;
+    border-radius: 7px;
+    background-color: #FF5151;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .5s background-color;
+}
+.agreement-box__checker:hover{
+    cursor: pointer;
+}
+.agreement-box__checker i{
+    font-size: 21px;
+    color: #fff;
+    opacity: 0;
+    transition: .5s opacity;
+}
+.abc-small{
+    width: 25px;
+    height: 25px;
+}
+.abc-small i{
+    font-size: 16px;
+}
+
+.agreement-box__chk:checked ~ .agreement-box__checker{
+    background-color: green;
+}
+.agreement-box__chk:checked ~ .agreement-box__checker i,
+.agreement-box__chk:checked ~ i{
+    opacity: 1;
+}
+.agreement-box__text{
+    margin-top: 3px;
+    font-size: 24px;
+}
+.agreement-box__text:hover{
+    cursor: pointer;
+}
+
+/*Вид кнопки*/
+.btn{
+    font-family: 'Brushtype', arial;
+    font-size: 28px;
+    margin-left: 10px;
+    width: 150px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .5s background-color;
+}
+.btn-small{
+    font-size: 20px;
+    width: 90px;
+    height: 30px;
+}
+.btn_color-red:hover{
+    background-color: #FF5151;
+}
+.btn_color-red:active{
+    box-shadow: 0 0 5px 3px #FF5151;
+}
+.btn_color-green:hover{
+    background-color: green;
+}
+.btn_color-green:active{
+    box-shadow: 0 0 5px 3px green;
+}
+
+/*Скрытие блоков*/
+.bk-hide{
+    display: none;
+}

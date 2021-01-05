@@ -1,0 +1,88 @@
+.insert-work,.actual-Work,.complite-work{
+    /*border: 1px solid #000;*/
+    width: 100%;
+    min-height: 20px;
+    margin-bottom: 10px;
+}
+.todo__title{
+    font-family: 'B52', arial;
+    font-size: 20px;
+    font-weight: 600;
+    border-bottom: 3px solid black;
+    width: 100%;
+    margin: 10px 0;
+}
+.insert-task{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.edit-field {
+    margin: 1px 10px 0 10px;
+    font-size: 18px;
+    line-height: 18px;
+    height: 18px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    font-family: sans-serif;
+    color: #888;
+    width: 100%;
+}
+.edit-field_margin-size{
+    margin: 0;
+}
+.edit-field:focus{
+    color: #000;
+}
+.actual-task,
+.complete-task{
+    padding: 0;
+    width: 100%;
+    height: 100px;
+    overflow-y: scroll;
+}
+.actual-task li,
+.complete-task li{
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid lightgray;
+    width: 100%;
+}
+.text-field{
+    font-size: 18px;
+    line-height: 40px;
+    margin-left: 10px;
+    width: 100%;
+    padding: 1px 0 0 11px;
+    box-sizing: border-box;
+}
+.cross-text{
+    text-decoration: line-through;
+    color: #888;
+}
+.toDoBtn{
+    background: none;
+    width: 35px;
+    height: 35px;
+    border: none;
+    cursor: pointer;
+    color: #888;
+    font-size: 15px;
+    font-family: sans-serif;
+    float: right;
+    margin: 8px auto;
+}
+.toDoBtn:hover{
+    color: #000;
+}
+.toDoBtn i {
+    font-size: 20px;
+}
+.button-box-position_right{
+    align-self: flex-end;
+}

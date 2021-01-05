@@ -1,0 +1,119 @@
+/*Разворот календаря на toDoList*/
+
+.content__todo{
+    position: absolute;
+    width: 540px;
+    height: 550px;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    transform: rotateY(180deg);
+    background-color: linen;
+    box-shadow: purple 0 0 12px 3px;
+    box-sizing: border-box;
+    padding: 20px;
+    transition: 1s transform;
+    backface-visibility: hidden;
+}
+.content__calendar{
+    transition: 1s transform;
+    backface-visibility: hidden;
+}
+.content__calendar{
+    position: relative;
+}
+.calendar_back{
+    transform: rotateY(180deg);
+}
+.todo_face{
+    transform: rotateY(360deg);
+}
+.todo_back{
+    transform: rotateY(180deg);
+}
+
+
+/*Стилизация кнопки настроек*/
+.btn-setting{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 0;
+    width: 40px;
+    height: 40px;
+    left: 30px;
+    top: 30px;
+    border-radius: 50%;
+    font-size: 28px;
+    cursor: pointer;
+    border: 3px solid purple;
+    transition: .5s box-shadow;
+}
+.btn-setting:hover{
+    box-shadow: 0 0 5px 3px purple;
+}
+.dBlockHoliday{
+    position: relative;
+}
+
+/*Всплывающая информация о праздниках*/
+.context{
+    padding: 5px;
+    pointer-events: none;
+    box-sizing: border-box;
+    line-height: 16px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 260px;
+    height: 60px;
+    font-size: 14px;
+    border-radius: 15px;
+    background-color: rgba(103,52,153,.9);
+    color: #fff;
+    font-weight: 500;
+    transition: .5s opacity;
+}
+.triangleTop{
+    display: inline-flex;
+    position: absolute;
+    top: -75px;
+    left: -100px;
+}
+.triangleTop:before{
+    content: "";
+    display: inline-block;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 0 10px;
+    border-color: rebeccapurple transparent transparent transparent;
+}
+.triangleBottom{
+    display: inline-flex;
+    position: absolute;
+    bottom: -75px;
+    left: -100px;
+}
+.triangleBottom:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent rebeccapurple transparent;
+}

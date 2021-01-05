@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Captureit';
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/captureit.ttf');
+}
+@font-face {
+    font-family: 'B52';
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/b52.ttf');
+}
+@font-face {
+    font-family: 'Brushtype';
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/brushtype.ttf');
+}
+
+
