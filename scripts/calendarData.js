@@ -63,16 +63,18 @@ const calendarData = {
      * Загрузает данные о праздниках в объект из JSON файла
      */
     loadHolidayJSON(){
-        let readFile=async file=> {
-            let promise=await fetch(file)
-            if (promise.ok) {
-                let json = await promise.json()
-                this.dates = Object.assign(this.dates, json)
-            } else {
-                alert("Ошибка чтения из файла")
-            }
+        let fileName='./holidaysBy.json'
+        let file=new XMLHttpRequest();
+        file.overrideMimeType('application/json')
+        file.open('GET',fileName,false)
+        file.send()
+        if(file.status===200){
+            let json=JSON.parse(file.responseText)
+            this.dates = Object.assign(this.dates, json)
         }
-        readFile('./holidaysBy.json')
+        else {
+            alert("Ошибка чтения из файла")
+        }
     },
     /**
      * Загружает ToDoList из LocalStorage в объект
