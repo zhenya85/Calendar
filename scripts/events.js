@@ -339,13 +339,15 @@ function addEventOpenToDo() {
     let calendar=document.querySelector('.calendar')
     let contentCalendar=document.getElementById('contentCalendar')
     calendar.addEventListener('click',function (e){
-        if(e.target.classList.contains('dBlock')){
-            createToDoList(e.target.dataset.fullDate)
-            let contentToDo=document.getElementById('contentToDo')
-            contentCalendar.classList.add('calendar_back')
-            setTimeout(()=>contentToDo.classList.add('todo_face'))
+        if(calendarData.settings.enabledPlaner) {
+            if (e.target.classList.contains('dBlock')) {
+                createToDoList(e.target.dataset.fullDate)
+                let contentToDo = document.getElementById('contentToDo')
+                contentCalendar.classList.add('calendar_back')
+                setTimeout(() => contentToDo.classList.add('todo_face'))
 
 
+            }
         }
     })
 }

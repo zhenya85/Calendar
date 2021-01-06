@@ -377,7 +377,7 @@ function days() {
     dBlock.set('background', 'lightseagreen')
     dBlock.set('borderWidth', '2px')
     dBlock.set('borderStyle', 'solid')
-    //dBlock.set('borderColor', 'white')
+    dBlock.set('borderColor', 'white')
     dBlock.set('borderRadius', '5px')
     dBlock.set('color', '#fff')
     dBlock.set('cursor', 'pointer')
@@ -578,7 +578,9 @@ function addDaysToCalendar(numDay, count, color, date) {
         elem.classList.add('dBlock');
         elem.classList.add(`dBlockAccess-${color}`)
         elem.innerText = Number(numDay) + i;
-        elem.style.borderColor=calendarData.checkDate(fullDate)
+        if (calendarData.settings.enabledPlaner) {
+            elem.style.borderColor = calendarData.checkDate(fullDate)
+        }
         calendar.append(elem);
     }
     return count;
