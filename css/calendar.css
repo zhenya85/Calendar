@@ -1,119 +1,306 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-top: 100px;
+
+    background-image: url('../img/bg_calendar.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.content {
+    width: 500px;
+    min-height: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+
+    background-color: linen;
+    box-shadow: 0 0 12px 3px purple;
+}
+
+.indate {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    padding: 5px;
+
+    border-radius: 10px;
+}
+
+.date-time-box {
+    padding: 10px;
+
+    border-radius: 15px;
+    background-color: #c8cdeb;
+}
+
+.real-time {
+    font-size: 45px;
+}
+
+.real-date {
+    font-size: 16px;
+    font-weight: 700;
+
+    color: darkorchid;
+}
+
+.control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.check-day {
+    font-weight: 700;
+
+    margin: 10px 0;
+    padding: 10px;
+
+    cursor: pointer;
+}
+
+.navigation-box {
+    display: flex;
+    justify-content: space-around;
+
+    width: 100px;
+    height: 30px;
+}
+
+.btnNav {
+    font-weight: 500;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    text-decoration: none;
+
+    color: #000;
+}
+
+.btnNav:hover {
+    font-weight: 700;
+
+    outline: 2px solid blueviolet;
+    background-color: lightcyan;
+}
+
+.calendar {
+    display: grid;
+
+    padding: 15px;
+
+    text-align: center;
+
+    border: 1px solid #000;
+    border-radius: 10px;
+
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 40px);
+    grid-gap: 5px;
+}
+
+.monthes {
+    display: none;
+
+    padding: 15px;
+
+    text-align: center;
+
+    border: 1px solid #000;
+    border-radius: 10px;
+
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 40px);
+    grid-gap: 5px;
+}
+
+.month {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #000;
+    border-radius: 10px;
+}
+
+.years {
+    display: none;
+
+    padding: 15px;
+
+    text-align: center;
+
+    border: 1px solid #000;
+    border-radius: 10px;
+
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 40px);
+    grid-gap: 5px;
+}
+
 /*Разворот календаря на toDoList*/
 
-.content__todo{
+.content__todo {
     position: absolute;
-    width: 540px;
-    height: 550px;
-    left: 0;
     top: 0;
+    left: 0;
+
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+
+    box-sizing: border-box;
+    width: 540px;
+    height: 550px;
+    padding: 20px;
+
+    transition: 1s transform;
     transform: rotateY(180deg);
+
     background-color: linen;
     box-shadow: purple 0 0 12px 3px;
-    box-sizing: border-box;
-    padding: 20px;
-    transition: 1s transform;
+
     backface-visibility: hidden;
 }
-.content__calendar{
+
+.content__calendar {
     transition: 1s transform;
+
     backface-visibility: hidden;
 }
-.content__calendar{
+
+.content__calendar {
     position: relative;
 }
-.calendar_back{
+
+.calendar_back {
     transform: rotateY(180deg);
 }
-.todo_face{
+
+.todo_face {
     transform: rotateY(360deg);
 }
-.todo_back{
+
+.todo_back {
     transform: rotateY(180deg);
 }
 
 
 /*Стилизация кнопки настроек*/
-.btn-setting{
+.btn-setting {
+    font-size: 28px;
+
+    position: absolute;
+    z-index: 0;
+    top: 30px;
+    left: 30px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    z-index: 0;
+
     width: 40px;
     height: 40px;
-    left: 30px;
-    top: 30px;
-    border-radius: 50%;
-    font-size: 28px;
+
     cursor: pointer;
-    border: 3px solid purple;
     transition: .5s box-shadow;
+
+    border: 3px solid purple;
+    border-radius: 50%;
 }
-.btn-setting:hover{
+
+.btn-setting:hover {
     box-shadow: 0 0 5px 3px purple;
 }
-.dBlockHoliday{
+
+.dBlockHoliday {
     position: relative;
 }
 
 /*Всплывающая информация о праздниках*/
-.context{
-    padding: 5px;
-    pointer-events: none;
-    box-sizing: border-box;
+.context {
+    font-size: 14px;
+    font-weight: 500;
     line-height: 16px;
+
     display: none;
     align-items: center;
     justify-content: center;
+
+    box-sizing: border-box;
     width: 260px;
     height: 60px;
-    font-size: 14px;
-    border-radius: 15px;
-    background-color: rgba(103,52,153,.9);
-    color: #fff;
-    font-weight: 500;
+    padding: 5px;
+
     transition: .5s opacity;
+    pointer-events: none;
+
+    color: #fff;
+    border-radius: 15px;
+    background-color: rgba(103, 52, 153, .9);
 }
-.triangleTop{
-    display: inline-flex;
+
+.triangleTop {
     position: absolute;
     top: -75px;
     left: -100px;
+
+    display: inline-flex;
 }
-.triangleTop:before{
-    content: "";
-    display: inline-block;
+
+.triangleTop:before {
     position: absolute;
+    right: 0;
     bottom: -10px;
     left: 0;
-    right: 0;
-    margin: 0 auto;
+
+    display: inline-block;
+
     width: 0;
     height: 0;
-    border-style: solid;
+    margin: 0 auto;
+
+    content: '';
+
     border-width: 10px 10px 0 10px;
+    border-style: solid;
     border-color: rebeccapurple transparent transparent transparent;
 }
-.triangleBottom{
-    display: inline-flex;
+
+.triangleBottom {
     position: absolute;
     bottom: -75px;
     left: -100px;
+
+    display: inline-flex;
 }
+
 .triangleBottom:after {
-    content: "";
-    display: inline-block;
     position: absolute;
     top: -10px;
-    left: 0;
     right: 0;
-    margin: 0 auto;
+    left: 0;
+
+    display: inline-block;
+
     width: 0;
     height: 0;
-    border-style: solid;
+    margin: 0 auto;
+
+    content: '';
+
     border-width: 0 10px 10px 10px;
+    border-style: solid;
     border-color: transparent transparent rebeccapurple transparent;
 }

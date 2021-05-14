@@ -3,8 +3,8 @@
 /**
  * Задает обработку событий для навигационных кнопок
  */
-function setBtnNav() {
-    let checkDay = document.getElementById('checkDay')
+function addEventToNavBtn() {
+    const checkDay = document.getElementById('checkDay')
     checkDay.addEventListener('mouseover', function () {
         checkDay.style.color = 'cornflowerblue'
     })
@@ -22,8 +22,8 @@ function setBtnNav() {
     })
 
     //Задание переходов по нажатию кнопок вверх и вниз
-    let btnUp = document.getElementById('btnUp')
-    let btnDown = document.getElementById('btnDown')
+    const btnUp = document.getElementById('btnUp')
+    const btnDown = document.getElementById('btnDown')
     btnDown.addEventListener('click', function () {
         if (checkDay.dataset.stat === 'calendar') {
             saveMonth++;
@@ -60,7 +60,7 @@ function setBtnNav() {
     })
 
     //Переход между месяцами при нажатии на дни календаря, отмеченные серым
-    let calendar = document.getElementById('calendar')
+    const calendar = document.getElementById('calendar')
     calendar.addEventListener('click', function (e) {
         let elem = e.target
         if (elem.classList.contains('dBlock') && elem.dataset.main === 'slave') {
@@ -82,7 +82,7 @@ function setBtnNav() {
     })
 
     //Задание эффекта наведения и нажатия на текущю дату
-    let realDate = document.getElementById('realDate')
+    const realDate = document.getElementById('realDate')
     realDate.addEventListener('mouseover', function () {
         realDate.style.color = 'blue'
         realDate.style.cursor = 'pointer'
@@ -103,7 +103,7 @@ function setBtnNav() {
         generateDate(calendarData.settings.firstDayIsMonday)
     })
 
-    let monthes = document.getElementById('monthes')
+    const monthes = document.getElementById('monthes')
     monthes.addEventListener('mouseover', function (e) {
         let elem = e.target;
         if (elem.classList.contains('month')) {
@@ -129,7 +129,7 @@ function setBtnNav() {
         }
     })
 
-    let years = document.getElementById('years')
+    const years = document.getElementById('years')
     years.addEventListener('mouseover', function (e) {
         let elem = e.target;
         if (elem.classList.contains('bkYear')) {
@@ -165,8 +165,8 @@ function setBtnNav() {
  */
 function setCalendarArea(chkDay, prevArea, nextArea) {
     chkDay.dataset.stat = nextArea
-    let prev = document.getElementById(prevArea)
-    let next = document.getElementById(nextArea)
+    const prev = document.getElementById(prevArea)
+    const next = document.getElementById(nextArea)
     next.classList.remove('animate__zoomOut')
     if (nextArea === 'calendar') {
         chkDay.innerText = `${nameMonths[saveMonth - 1]}, ${saveYear} г.`
@@ -189,7 +189,7 @@ function setCalendarArea(chkDay, prevArea, nextArea) {
  */
 function addEventToDays() {
     let saveBorderColor;
-    let calendar = document.getElementById('calendar')
+    const calendar = document.getElementById('calendar')
     calendar.addEventListener('mouseover', function (e) {
         let elem = e.target
         if (elem.classList.contains('dBlock')) {
@@ -215,16 +215,13 @@ function addEventToDays() {
  * Обработка нажатия кнопки настройки календаря
  */
 function addEventSettingBtn() {
-    let setting = document.getElementById('btnSetting')
-    let popup = document.getElementById('popupContent')
-    let popupBack = document.getElementById('popupBackground')
+    const setting = document.getElementById('btnSetting')
+    const popup = document.getElementById('popupContent')
+    const popupBack = document.getElementById('popupBackground')
 
     setting.addEventListener('click', function () {
         setting.style.transition = '.5s transform'
         setting.style.transform = 'rotate(360deg)'
-        // setTimeout(() => {
-        //     e.target.style.transform = 'rotate(0deg)'
-        // }, 500)
         popup.classList.remove('animate__zoomOut')
         popupBack.classList.remove('animate__fadeOut')
         popup.style.display = 'flex'
@@ -239,12 +236,15 @@ function addEventSettingBtn() {
  * Установка параметров календаря для меню
  */
 function getCalendarSetting() {
-    let chkToggle = document.getElementById('chkToggle')
-    let hideDays = document.getElementById('hideDays')
-    let hidePlaner = document.getElementById('hidePlaner')
+    const chkToggle = document.getElementById('chkToggle')
+    const hideDays = document.getElementById('hideDays')
+    const hidePlaner = document.getElementById('hidePlaner')
+    const textWeather=document.getElementById('textWeather')
+
     chkToggle.checked = calendarData.settings.firstDayIsMonday
     hideDays.checked = calendarData.settings.onlyActualMonth
     hidePlaner.checked = calendarData.settings.enabledPlaner
+    textWeather.value=calendarData.settings.city
     calendarData.settings.weekDays.forEach((item, index) => {
         let chkDay = document.getElementById(`weekDay-${index}`)
         chkDay.checked = item
@@ -255,12 +255,13 @@ function getCalendarSetting() {
  * Задание обработки для кнопок меню настройки
  */
 function addEventsForPopupMenu() {
-    let popupClose = document.getElementById('popupClose')
-    let popupSave = document.getElementById('popupSave')
-    let chkToggle = document.getElementById('chkToggle')
-    let hideDays = document.getElementById('hideDays')
-    let hidePlaner = document.getElementById('hidePlaner')
-    let chkDaySetting = document.querySelectorAll('.chkDaySetting')
+    const popupClose = document.getElementById('popupClose')
+    const popupSave = document.getElementById('popupSave')
+    const chkToggle = document.getElementById('chkToggle')
+    const hideDays = document.getElementById('hideDays')
+    const hidePlaner = document.getElementById('hidePlaner')
+    const chkDaySetting = document.querySelectorAll('.chkDaySetting')
+    const textWeather=document.getElementById('textWeather')
 
 
     popupClose.addEventListener('click', closeSettingMenu)
@@ -269,11 +270,12 @@ function addEventsForPopupMenu() {
         calendarData.settings.firstDayIsMonday = chkToggle.checked
         calendarData.settings.onlyActualMonth = hideDays.checked
         calendarData.settings.enabledPlaner = hidePlaner.checked
+        calendarData.setNewCity(textWeather.value)
         chkDaySetting.forEach(item => {
             let num = Number(item.id.split('-')[1])
             calendarData.settings.weekDays[num] = item.checked
         })
-        calendarData.saveSettings()
+        calendarData.saveSettings(textWeather.value)
         generateDate(calendarData.settings.firstDayIsMonday)
         closeSettingMenu()
     })
@@ -284,9 +286,9 @@ function addEventsForPopupMenu() {
  * Закрытие меню настроек
  */
 function closeSettingMenu() {
-    let setting = document.getElementById('btnSetting')
-    let popup = document.getElementById('popupContent')
-    let popupBack = document.getElementById('popupBackground')
+    const setting = document.getElementById('btnSetting')
+    const popup = document.getElementById('popupContent')
+    const popupBack = document.getElementById('popupBackground')
 
     setting.style.transform = 'rotate(0deg)'
 
@@ -301,13 +303,32 @@ function closeSettingMenu() {
 }
 
 /**
+ * При нажатии на день - открывает окно ToDoList
+ */
+function addEventOpenToDo() {
+    const calendar=document.querySelector('.calendar')
+    const contentCalendar=document.getElementById('contentCalendar')
+    calendar.addEventListener('click',function (e){
+        if(calendarData.settings.enabledPlaner) {
+            if (e.target.classList.contains('dBlock')) {
+                createToDoList(e.target.dataset.fullDate)
+                let contentToDo = document.getElementById('contentToDo')
+                contentCalendar.classList.add('calendar_back')
+                setTimeout(() => contentToDo.classList.add('todo_face'),20)
+
+            }
+        }
+    })
+}
+
+/**
  * Отображает название праздника, при наведении на день
  */
 function addEventsForHoliday() {
-    let dBlockHoliday = document.querySelectorAll('.dBlockHoliday')
+    const dBlockHoliday = document.querySelectorAll('.dBlockHoliday')
     dBlockHoliday.forEach((item) => {
 
-        let context = document.createElement('span')
+        const context = document.createElement('span')
         context.classList.add('context')
         let holidayMas = calendarData.checkHoliday(item.dataset.holiday, true)
         holidayMas.forEach(itemText => context.insertAdjacentText('beforeend', itemText))
@@ -332,22 +353,28 @@ function addEventsForHoliday() {
     })
 }
 
-/**
- * При нажатии на день - открывает окно ToDoList
- */
-function addEventOpenToDo() {
-    let calendar=document.querySelector('.calendar')
-    let contentCalendar=document.getElementById('contentCalendar')
-    calendar.addEventListener('click',function (e){
-        if(calendarData.settings.enabledPlaner) {
-            if (e.target.classList.contains('dBlock')) {
-                createToDoList(e.target.dataset.fullDate)
-                let contentToDo = document.getElementById('contentToDo')
-                contentCalendar.classList.add('calendar_back')
-                setTimeout(() => contentToDo.classList.add('todo_face'))
-
-
-            }
-        }
+function addEventForWeather(){
+    const calendar=document.getElementById('calendar')
+    const dBlock=calendar.querySelectorAll('.dBlock')
+    dBlock.forEach(item=>{
+        item.addEventListener('mouseover',addWeatherForDay)
+        item.addEventListener('mouseout',setWeatherDefault)
     })
+
+}
+
+/**
+ * Назначение погоды на конкретный день
+ */
+function addWeatherForDay(event){
+    const element=event.target
+    const date=element.dataset.fullDate
+    setDataInCalendar(date)
+}
+
+/**
+ * Возвращает состояние погоды на текущий день
+ */
+function setWeatherDefault(){
+    setDataInCalendar(getStringDateNow())
 }

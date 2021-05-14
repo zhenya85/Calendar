@@ -5,7 +5,10 @@ const calendarData = {
         onlyActualMonth: false,
         enabledPlaner: true,
         weekDays: [false, false, false, false, false, true, true],
-        country: 'BY'
+        country: 'BY',
+        saveCity: '',
+        city: 'Могилёв',
+        timeUpdateWeather: 1
     },
     dates: {
         'BY': {
@@ -15,17 +18,25 @@ const calendarData = {
 
     },
     tooDoList: {},
+    weather: {
+        firstDay: '',
+        appid: '621b956eda4a85205fe44caea6213113',
+        lang: 'ru',
+        units: 'metric',
+        lon: 30.3364,
+        lat: 53.9139,
+        daysArray: []
+    },
     /**
      * Предоставляет информацию, считать ли переданный день выходным
      * @param day Передаваемый номер дня
      * @returns {boolean} Результат проверки
      */
-    checkWeekday(day){
-        if(day===0){
+    checkWeekday(day) {
+        if (day === 0) {
             return this.settings.weekDays[6]
-        }
-        else{
-            return this.settings.weekDays[day-1]
+        } else {
+            return this.settings.weekDays[day - 1]
         }
     },
     /**
@@ -49,8 +60,8 @@ const calendarData = {
      * @param {boolean} getData Если данные есть - вернуть результат
      * @returns {boolean} Результат поиска true|false|[] (массив со списком праздников)
      */
-    checkHoliday(date, getData=false){
-        let data=this.dates[this.settings.country]
+    checkHoliday(date, getData = false) {
+        const data = this.dates[this.settings.country]
         if (data) {
             if (getData) {
                 return data[date] ? data[date] : []
@@ -62,17 +73,16 @@ const calendarData = {
     /**
      * Загрузает данные о праздниках в объект из JSON файла
      */
-    loadHolidayJSON(){
-        let fileName='./holidaysBy.json'
-        let file=new XMLHttpRequest();
+    loadHolidayJSON() {
+        let fileName = './holidaysBy.json'
+        const file = new XMLHttpRequest();
         file.overrideMimeType('application/json')
-        file.open('GET',fileName,false)
+        file.open('GET', fileName, false)
         file.send()
-        if(file.status===200){
-            let json=JSON.parse(file.responseText)
+        if (file.status === 200) {
+            let json = JSON.parse(file.responseText)
             this.dates = Object.assign(this.dates, json)
-        }
-        else {
+        } else {
             alert("Ошибка чтения из файла")
         }
     },
@@ -91,19 +101,18 @@ const calendarData = {
      * @param textData Текстовое содержимое
      * @param actualCategory Запись добавлять в категорию "активные"
      */
-    addDataInToDo(date,textData,actualCategory=true){
-        if(this.tooDoList[date]===undefined){
-            this.tooDoList[date]={}
+    addDataInToDo(date, textData, actualCategory = true) {
+        if (this.tooDoList[date] === undefined) {
+            this.tooDoList[date] = {}
         }
-        if(actualCategory) {
-            if(this.tooDoList[date].actualTask===undefined){
-                this.tooDoList[date].actualTask=[]
+        if (actualCategory) {
+            if (this.tooDoList[date].actualTask === undefined) {
+                this.tooDoList[date].actualTask = []
             }
             this.tooDoList[date].actualTask.unshift(textData)
-        }
-        else {
-            if(this.tooDoList[date].completedTask===undefined){
-                this.tooDoList[date].completedTask=[]
+        } else {
+            if (this.tooDoList[date].completedTask === undefined) {
+                this.tooDoList[date].completedTask = []
             }
             this.tooDoList[date].completedTask.unshift(textData)
         }
@@ -118,8 +127,8 @@ const calendarData = {
      * Очистка старых записей ToDoList в указанном дне
      * @param date День, записи которого нужно очистить
      */
-    clearToDoDate(date){
-        if(this.tooDoList[date]!==undefined){
+    clearToDoDate(date) {
+        if (this.tooDoList[date] !== undefined) {
             delete this.tooDoList[date]
         }
     },
@@ -127,27 +136,43 @@ const calendarData = {
      * Проверка наличия записей в ToDoList и их актуальность
      * @param date Дата для проверки
      */
-    checkDate(date){
-        let dateNow=new Date()
-        dateNow.setHours(0,0,0,0)
-        let checkDate=new Date(date)
-        checkDate.setHours(0,0,0,0)
+    checkDate(date) {
+        const dateNow = new Date()
+        dateNow.setHours(0, 0, 0, 0)
+        const checkDate = new Date(date)
+        checkDate.setHours(0, 0, 0, 0)
         //Проверка на наличие не завершенных дел
-        if(this.tooDoList[date] && this.tooDoList[date].actualTask && this.tooDoList[date].actualTask.length>0) {
+        if (this.tooDoList[date] && this.tooDoList[date].actualTask && this.tooDoList[date].actualTask.length > 0) {
             if (dateNow < checkDate) {
                 return 'green';
             }
-            if (dateNow.getDate()===checkDate.getDate()) {
+            if (dateNow.getDate() === checkDate.getDate()) {
                 return 'blue';
             }
             if (dateNow > checkDate) {
                 return 'red';
             }
-        }
-        else if(this.tooDoList[date] && this.tooDoList[date].completedTask && this.tooDoList[date].completedTask.length>0){
+        } else if (this.tooDoList[date] && this.tooDoList[date].completedTask && this.tooDoList[date].completedTask.length > 0) {
             return 'grey'
         }
         return 'white';
+    },
+    /**
+     * Позволяет сохранить новый город
+     * @param newCityName Название нового города
+     */
+    async setNewCity(newCityName) {
+        let myCity = document.getElementById('myCity')
+        let saveCity = calendarData.settings.city
+        calendarData.settings.city = newCityName
+        try {
+            await getGeo()
+            await getWeatherForSevenDays()
+            setDataInCalendar(getStringDateNow())
+        } catch (e) {
+            calendarData.settings.city = saveCity
+            myCity.innerText = calendarData.settings.city
+        }
     }
 
 }
